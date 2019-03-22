@@ -5,7 +5,7 @@
 %        A -> Constraint Matrix
 %        x -> All vars
 %        b -> Bounds for constraints
-function Maximize(x_not, B, N, C, A, x, b)
+function res = Maximize(x_not, B, N, C, A, x, b)
     disp("Current solution")
     disp(x_not)
     disp(A)
@@ -86,14 +86,13 @@ function Maximize(x_not, B, N, C, A, x, b)
     if ei == 0
        disp("Max found")
        disp(x_not)
+       res = x_not
     else 
        enter = maxV;
        disp("Entering Variable")
        disp(enter)
-       %disp(maxV)
        
        %Create simplex direction for the winner
-       %d = Bp \ -A(:,2);
        d = Bp \ -A(:,enter);
        disp("d")
        disp(d)
@@ -166,6 +165,7 @@ function Maximize(x_not, B, N, C, A, x, b)
        else 
           disp("No more feasible directions to travel") 
           disp(x_not)
+          res = x_not
        end
     end
 end

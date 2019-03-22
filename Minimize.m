@@ -12,6 +12,7 @@ function Minimize(x_not, B, N, C, A, x, b)
     disp(x)
     disp(b)
     disp(C)
+    
     %first need to set B' and N'
     down = length(A(:,1));
     basic = length(B);
@@ -111,7 +112,7 @@ function Minimize(x_not, B, N, C, A, x, b)
                di = d(i);
                if di ~= 0
                    lam = -xi / di;
-                   if lam < lambda && lam > 0 
+                   if lam < lambda && lam < 0 
                       lambda = lam;
                       li = place;
                    end
