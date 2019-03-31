@@ -5,7 +5,7 @@
 %        A -> Constraint Matrix
 %        x -> All vars
 %        b -> Bounds for constraints
-function res = Maximize(x_not, B, N, C, A, x, b)
+function r = Maximize(x_not, B, N, C, A, x, b)
     disp("Current solution")
     disp(x_not)
     disp(A)
@@ -68,9 +68,7 @@ function res = Maximize(x_not, B, N, C, A, x, b)
     disp(y)
     
     %Calculate Reduced Cost
-    a = Cn';
-    b = (y' * Np);
-    Cnhat = a + b;
+    Cnhat = Cn' + (y' * Np);
     disp("Cnhat")
     disp(Cnhat)
     
@@ -78,7 +76,7 @@ function res = Maximize(x_not, B, N, C, A, x, b)
     ei = 0;
     maxV = 0;
     for i = 1:length(Cnhat)
-        if Cnhat(i) > maxV
+        if Cnhat(i) > 0
             ei = i;
             maxV = N(i);
         end
@@ -86,7 +84,7 @@ function res = Maximize(x_not, B, N, C, A, x, b)
     if ei == 0
        disp("Max found")
        disp(x_not)
-       res = x_not
+       r = x_not;
     else 
        enter = maxV;
        disp("Entering Variable")
@@ -143,10 +141,6 @@ function res = Maximize(x_not, B, N, C, A, x, b)
            disp("Update Solution")
            disp(x_not)
            
-%            disp(B)
-%            disp(N)
-%            disp(leave)
-%            disp(enter)
            r1 = ismember(B,leave);
            r2 = ismember(N,enter);
            B(r1) = enter;
@@ -158,14 +152,14 @@ function res = Maximize(x_not, B, N, C, A, x, b)
            y = "y";
            disp(z)
            if strcmp(z,y)
-               Maximize(x_not, B, N, C, A, x, b);
+               r = Maximize(x_not, B, N, C, A, x, b);
            else 
                ;
            end
        else 
           disp("No more feasible directions to travel") 
           disp(x_not)
-          res = x_not
+          r = x_not;
        end
     end
 end

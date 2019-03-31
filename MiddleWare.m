@@ -12,28 +12,26 @@ function MiddleWare(A,x,b,C,m,g)
     %Do error checking here
     
     %Find basic and non basic vars
-    B = find(~C);
-    N = find(C);
-    
-    %What if we always just find our own inital basic feasible soluiton
-    %always
-    water = initSol(A,b,x,B,N,C);
-    x_not = [];
-    if water == -1    
+   [o,p] = size(A);
+    v = p - o;
+    x_not = findMe(A,b,x,v);
+    if x_not == -1
         %Find inital solution -> assumes origin feasible
         x_not = zeros(length(x),1);
         for i = 1:length(B)
             x_not(B(i)) = b(i);
-        end 
-    else 
-        x_not = water;
+        end
     end
-    
+    B = find(x_not);
+    N = find(~x_not);
+       
+
     disp(x_not)
     
     if m == 0
         if g == 0
-            Minimize(x_not, B, N, C, A, x, b)
+            %"minimization"
+            Maximize(x_not, B, N, -C, -A, x, -b)
         elseif g == 1
             %generate extreme points
             

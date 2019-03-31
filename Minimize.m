@@ -5,7 +5,7 @@
 %        A -> Constraint Matrix
 %        x -> All vars
 %        b -> Bounds for constraints
-function Minimize(x_not, B, N, C, A, x, b)
+function res = Minimize(x_not, B, N, C, A, x, b)
     disp("Current solution")
     disp(x_not)
     disp(A)
@@ -69,32 +69,32 @@ function Minimize(x_not, B, N, C, A, x, b)
     disp(y)
     
     %Calculate Reduced Cost
-    a = Cn';
-    b = (y' * Np);
-    Cnhat = a + b;
+    Cnhat = Cn' + (y' * Np);
     disp("Cnhat")
     disp(Cnhat)
     
     %Find the most improving feasible direction
     ei = 0;
     minV = inf;
+    found = 0;
     for i = 1:length(Cnhat)
-        if Cnhat(i) < minV
+        if Cnhat(i) < 0 && found == 0
             ei = i;
             minV = N(i);
+            found = 1;
+            disp(i)
         end
     end
     if ei == 0
        disp("Min found")
        disp(x_not)
+       res = x_not;
     else 
        enter = minV;
        disp("Entering Variable")
        disp(enter)
-       %disp(maxV)
        
        %Create simplex direction for the winner
-       %d = Bp \ -A(:,2);
        d = Bp \ -A(:,enter);
        disp("d")
        disp(d)
@@ -112,7 +112,7 @@ function Minimize(x_not, B, N, C, A, x, b)
                di = d(i);
                if di ~= 0
                    lam = -xi / di;
-                   if lam < lambda && lam < 0 
+                   if lam < lambda && lam > 0 
                       lambda = lam;
                       li = place;
                    end
@@ -149,8 +149,8 @@ function Minimize(x_not, B, N, C, A, x, b)
 %            disp(N)
 %            disp(leave)
 %            disp(enter) 
-           r1 = ismember(B,leave);
-           r2 = ismember(N,enter);
+           r1 = ismember(B,leave)
+           r2 = ismember(N,enter)
            B(r1) = enter;
            N(r2) = leave;
            B = sort(B);
@@ -167,6 +167,7 @@ function Minimize(x_not, B, N, C, A, x, b)
        else 
           disp("No more feasible directions to travel") 
           disp(x_not)
+          res = x_not
        end
     end
 end
