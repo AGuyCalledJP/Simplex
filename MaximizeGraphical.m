@@ -5,13 +5,16 @@
 %        A -> Constraint Matrix
 %        x -> All vars
 %        b -> Bounds for constraints
-function r = Maximize(x_not, B, N, C, A, x, b)
+function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path)
     disp("Current solution")
     disp(x_not)
     disp(A)
     disp(x)
     disp(b)
     disp(C)
+    
+    path(end+1, 1) = x_not(1);
+    path(end, 2) = x_not(2);
     
     %first need to set B' and N'
     down = length(A(:,1));
@@ -87,6 +90,7 @@ function r = Maximize(x_not, B, N, C, A, x, b)
        disp("Max found")
        disp(x_not)
        r = x_not;
+       completePath = path;
     else 
        enter = maxV;
        disp("Entering Variable")
@@ -149,13 +153,13 @@ function r = Maximize(x_not, B, N, C, A, x, b)
            N(r2) = leave;
            B = sort(B);
            N = sort(N);
-           r = Maximize(x_not, B, N, C, A, x, b);
+          [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path);
 %            prompt = "Run again? (y/n)";
 %            z = input(prompt,'s');
 %            y = "y";
 %            disp(z)
 %            if strcmp(z,y)
-%                r = Maximize(x_not, B, N, C, A, x, b);
+%                [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path);
 %            else 
 %                ;
 %            end
@@ -163,6 +167,7 @@ function r = Maximize(x_not, B, N, C, A, x, b)
           disp("No more feasible directions to travel") 
           disp(x_not)
           r = x_not;
+          completePath = path;
        end
     end
 end

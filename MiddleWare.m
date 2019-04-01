@@ -15,15 +15,19 @@ function MiddleWare(A,x,b,C,m,g)
    [o,p] = size(A);
     v = p - o;
     x_not = findMe(A,b,x,v);
+    disp(x_not)
     if x_not == -1
         %Find inital solution -> assumes origin feasible
         x_not = zeros(length(x),1);
-        for i = 1:length(B)
-            x_not(B(i)) = b(i);
+        disp(length(x_not));
+        bInd = 1;
+        for i = v + 1:length(x_not)
+           x_not(i) = b(bInd);
+           bInd = bInd + 1;
         end
     end
-    B = find(x_not);
-    N = find(~x_not);
+    B = find(x_not)';
+    N = find(~x_not)';
        
 
     disp(x_not)
@@ -31,24 +35,24 @@ function MiddleWare(A,x,b,C,m,g)
     if m == 0
         if g == 0
             %"minimization"
-            Maximize(x_not, B, N, -C, -A, x, -b)
+            r = Maximize(x_not, B, N, -C, -A, x, -b);
         elseif g == 1
-            %generate extreme points
-            
             %get path
-            
+            road = [];
+            [r,path] = MaximizeGraphical(x_not, B, N, -C, -A, x, -b, road);
             %plot
-            
-            
-            ;
+            graphIt(A,b,x,v,path);
         else 
             disp("Uncrecognized command")
         end
     elseif m == 1
         if g == 0
-            Maximize(x_not, B, N, C, A, x, b)
+            r = Maximize(x_not, B, N, C, A, x, b);
         elseif g == 1
-            ;
+            %get path
+            [r,path] = MaximizeGraphical(x_not, B, N, C, A, x, b, []);
+            %plot
+            graphIt(A,b,x,v,path);
         else 
             disp("Uncrecognized command")
         end 
