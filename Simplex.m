@@ -1,4 +1,4 @@
-%Front end for Simplex Algorithm
+%Progenitor function: SIMPLEX
 %Assumes linear program is in canonical form
 %@PARAM: A -> Constraint Matrix
 %        x -> All vars
