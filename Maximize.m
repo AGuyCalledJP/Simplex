@@ -6,12 +6,12 @@
 %        x -> All vars
 %        b -> Bounds for constraints
 function r = Maximize(x_not, B, N, C, A, x, b)
-    disp("Current solution")
-    disp(x_not)
-    disp(A)
-    disp(x)
-    disp(b)
-    disp(C)
+%     disp("Current solution")
+%     disp(x_not)
+%     disp(A)
+%     disp(x)
+%     disp(b)
+%     disp(C)
     
     %first need to set B' and N'
     down = length(A(:,1));
@@ -51,28 +51,28 @@ function r = Maximize(x_not, B, N, C, A, x, b)
        Cn(i) = val;
     end
     
-    disp("Basic vars")
-    disp(B)
-    disp("Non-Basic vars")
-    disp(N)
-    disp("B prime")
-    disp(Bp)
-    disp("C basic")
-    disp(Cb)
-    disp("N prime")
-    disp(Np)
-    disp("C non-basic")
-    disp(Cn)
+%     disp("Basic vars")
+%     disp(B)
+%     disp("Non-Basic vars")
+%     disp(N)
+%     disp("B prime")
+%     disp(Bp)
+%     disp("C basic")
+%     disp(Cb)
+%     disp("N prime")
+%     disp(Np)
+%     disp("C non-basic")
+%     disp(Cn)
     
     %Calculate y -> B'y = -Cb
     y = Bp' \ -Cb;
-    disp("y")
-    disp(y)
+%     disp("y")
+%     disp(y)
     
     %Calculate Reduced Cost
     Cnhat = Cn' + (y' * Np);
-    disp("Cnhat")
-    disp(Cnhat)
+%     disp("Cnhat")
+%     disp(Cnhat)
     
     %Find the most improving feasible direction
     ei = 0;
@@ -84,18 +84,18 @@ function r = Maximize(x_not, B, N, C, A, x, b)
         end
     end
     if ei == 0
-       disp("Max found")
-       disp(x_not)
+%        disp("Max found")
+%        disp(x_not)
        r = x_not;
     else 
        enter = maxV;
-       disp("Entering Variable")
-       disp(enter)
+%        disp("Entering Variable")
+%        disp(enter)
        
        %Create simplex direction for the winner
        d = Bp \ -A(:,enter);
-       disp("d")
-       disp(d)
+%        disp("d")
+%        disp(d)
        
        if 1 && ~all(d >= 0) 
            %Ratio test
@@ -116,11 +116,11 @@ function r = Maximize(x_not, B, N, C, A, x, b)
                    end
                end
            end
-           disp("Max lambda")
-           disp(lambda)
-           disp("Leaving Var")
+%            disp("Max lambda")
+%            disp(lambda)
+%            disp("Leaving Var")
            leave = x(ismember(x,li));
-           disp(leave)
+           %disp(leave)
            
            %Construct proper simplex direction
            dK = zeros(length(x_not),1);
@@ -135,13 +135,13 @@ function r = Maximize(x_not, B, N, C, A, x, b)
                   dK(i) = 0;
               end
            end
-           disp("Simplex direction")
-           disp(dK)
+%            disp("Simplex direction")
+%            disp(dK)
            %Update Solution
            step = (lambda * dK);
            x_not = x_not + step;
-           disp("Update Solution")
-           disp(x_not)
+%            disp("Update Solution")
+%            disp(x_not)
            
            r1 = ismember(B,leave);
            r2 = ismember(N,enter);
@@ -160,8 +160,8 @@ function r = Maximize(x_not, B, N, C, A, x, b)
 %                ;
 %            end
        else 
-          disp("No more feasible directions to travel") 
-          disp(x_not)
+%           disp("No more feasible directions to travel") 
+%           disp(x_not)
           r = x_not;
        end
     end

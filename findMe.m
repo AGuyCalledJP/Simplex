@@ -20,18 +20,18 @@ function res = findMe(A,b,x,v)
            pardner(i) = 1;
         end
     end
-    disp(pardner)
+    %disp(pardner)
     
     %add new vars to A, x, and c
     if ~isempty(find(~pardner))
-        disp(find(~pardner))
+        %disp(find(~pardner))
         num = length(pardner) - length(find(~pardner));
         start = length(x);
         newX = zeros(1,start + num);
         for i = 1:start + num
             newX(i) = i;
         end
-        disp(newX)
+        %disp(newX)
         newC = zeros(1,length(newX));
         q = num;
         tail = length(newX) + 1;
@@ -39,10 +39,10 @@ function res = findMe(A,b,x,v)
             newC(tail - q) = 1;
             q = q - 1;
         end
-        disp(newC)
+        %disp(newC)
         
         %Make new A
-        disp(A)
+        %disp(A)
         newA = zeros(m, n + num);
         here = num - 1;
         for i = 1:m
@@ -60,7 +60,7 @@ function res = findMe(A,b,x,v)
             end
         end
         
-        disp(newA)
+        %disp(newA)
         
         %Make new x_not
         x_not = zeros(length(newX),1);
