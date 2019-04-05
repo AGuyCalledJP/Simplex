@@ -1,14 +1,13 @@
 % Function to find an initial solution when the origin is not feasible 
-% Inputs: matrix A, vector b, WHAT ARE X AND V?
-% Output: -1 when the origin is feasible 
+% Inputs: matrix A, vector b, x is list of variables, v is number of original variables
+% Output: -1 when the origin is feasible, otherwise it minimizes solution and returns what it finds  
 function res = findMe(A,b,x,v)
     %get column and row size of A
     [m,n] = size(A);
     
     %Determine how many problem constraints we have 
     %potential problems: if a constraint must be greater than or equal to a positive number, 
-    %                    if a constraint must be less than or equal to a negative number,
-    %                    
+    %                    if a constraint must be less than or equal to a negative number,                  
     pardner = zeros(1,m);
     %Identify potential problems for each row
     for i = 1:m
@@ -67,10 +66,10 @@ function res = findMe(A,b,x,v)
             % traverse through A columns
             for j = 1:n + num
                 if j <= n
-                    % WHAT IS HAPPENING HERE
+                    % if not in problem column just copy over from matrix A
                     newA(i,j) = A(i,j);
                 else
-                    %Otherwise we DO WHAT?
+                    % When it's a problem then we add a 1 to the spot of problem
                     if pardner(i) == 1 && j == (n + num) - here && ~foundOne
                         newA(i,j) = 1;
                         here = here - 1;
@@ -79,18 +78,25 @@ function res = findMe(A,b,x,v)
                 end
             end
         end
-        
         % disp(newA)
         
-        % Make new x_not
+        % Make new x_not with all 0's
         x_not = zeros(length(newX),1);
-        % WHAT DOES FIND DO AGAIN?
+        
+        % Find takes an array and returns when index is 0
+        % Set vector of indexes where array is 0
         aInds = find(newC);
+        % find(~array) returns when index is not 0
+        % Set vector of indexes where array is not 0 (where there's a problem)
         sInds = find(~newC);
         at = 1;
-        % NEED A REMINDER ON THIS
+        
+        % Navigate through, when we're at a problem constraint we want to 
+        % set the value of x_not to the value of b(i) 
+        % at indexes which problem constraint we're at (how many we've already gone through)
         for i = 1:length(pardner)
            if pardner(i) == 1
+               % 
                x_not(aInds(at)) = b(i);
                at = at + 1;
            else 
