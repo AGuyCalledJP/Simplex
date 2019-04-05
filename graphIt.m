@@ -1,5 +1,7 @@
 % This function graphs the path taken through the feasible region by the algorithm
-% Inputs: Matrix A, vector b, x and v are same, path is the path the simplex algorithm took(found in maximizeGraphical)
+% Inputs: Matrix A, vector b, x is the list of variables,
+% v is the number of original non-slack variables there are,
+% path is the path the simplex algorithm took (found in maximizeGraphical)
 % No return
 
 function graphIt(A,b,x,v,path)
