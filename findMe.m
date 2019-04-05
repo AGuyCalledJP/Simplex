@@ -1,3 +1,6 @@
+% Function to find an initial solution when the origin is not feasible 
+% Inputs: matrix A, vector b, WHAT ARE X AND V?
+% Output: -1 when the origin is feasible 
 function res = findMe(A,b,x,v)
     %get column and row size of A
     [m,n] = size(A);
