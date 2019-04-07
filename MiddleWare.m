@@ -1,78 +1,95 @@
-%Error handling and some behind the scenes work
-%@AUTHOR: Jared Polonitza
-%@PARAM: A -> Constraint Matrix
-%        x -> All vars
-%        b -> Bounds for constraints
+% Error handling and some behind the scenes work
+% @AUTHOR: Jared Polonitza
+% @PARAM: A -> Constraint Matrix
+%        x -> Vector of all variables
+%        b -> Vector of constraint bounds
 %        C -> Objective function
 %        m -> Min/Max (0,1)
-%        g -> Generate Graph (2 dim only)
-% TODO - Find initial feasible solution
-%      - Find basic and non-basic vars
+%        g -> Generate Graph (0,1) -- 2 dim only
+
 function MiddleWare(A,x,b,C,m,g)
-    %Do error checking here
+%       -- help function MiddleWare --
+%       MiddleWare(A,x,b,C,m,g) where A is the constraint matrix, x is the vector of all variables,
+%       b is the vector of constraint bounds, C is the objective function, m is whether the program is 
+%       to be minimized (0) or maximized (1), and g is whether the program will be graphed (1) or not 
+%       graphed (0). 
     
-    %Find basic and non basic vars
+    % Do error checking here
+    
+    % Find basic and non basic variables
    [o,p] = size(A);
     v = p - o;
+    
+    % Find a initial feasible solution
     x_not = findMe(A,b,x,v);
     %disp(x_not)
+    
+    % If origin can be an initial feasible solution
     if x_not == -1
-        %Find inital solution -> assumes origin feasible
         x_not = zeros(length(x),1);
-        %disp(length(x_not));
+        % disp(length(x_not));
         bInd = 1;
         for i = v + 1:length(x_not)
            x_not(i) = b(bInd);
            bInd = bInd + 1;
         end
     end
+    
+    % Set the B and N matrices
     B = find(x_not)';
     N = find(~x_not)';
        
-
-    %disp(x_not)
+    % disp(x_not)
     
-    if m == 0
+    if m == 0 
         if g == 0
-            %"minimization"
+            % Minimization so negate C,A,b and no graphing since g=0
+            % r is solution found by simplex
             r = Maximize(x_not, B, N, -C, -A, x, -b);
             max = C * r;
             disp("Global optimum of: " + max);
             disp("Achieved at: ");
             disp(r');
         elseif g == 1
-            %get path
+            % Minimzation so negate C,A,b and graphing since g=1
             road = [];
+            % r is solution found from simplex and path is matrix of (x,y) coordinates the algorithm took
             [r,path] = MaximizeGraphical(x_not, B, N, -C, -A, x, -b, road);
             max = C * r;
             disp("Global optimum of: " + max);
             disp("Achieved at: ");
             disp(r');
-            %plot
+            % plot direction taken by algorithm
             graphIt(A,b,x,v,path);
         else 
+            % Anything else besides 0 or 1 put in for g
             disp("Uncrecognized command")
         end
     elseif m == 1
         if g == 0
+            % Maximization problem and no graphing
+            % r is solution found from simplex algorithm
             r = Maximize(x_not, B, N, C, A, x, b);
             max = C * r;
             disp("Global optimum of: " + max);
             disp("Achieved at: ");
             disp(r');
         elseif g == 1
-            %get path
+            % Maximization problem and graphing
+            % r is solution found and path is matrix of (x,y) coordinates teh algorithm took
             [r,path] = MaximizeGraphical(x_not, B, N, C, A, x, b, []);
             max = C * r;
             disp("Global optimum of: " + max);
             disp("Achieved at: ");
             disp(r');
-            %plot
+            % plot direction taken by algorithm
             graphIt(A,b,x,v,path);
         else 
+            % Anything besides 0 or 1 put in for g
             disp("Uncrecognized command")
         end 
     else 
+       % Anything besides 0 or 1 put in for m
        disp("Unrecognized command") 
     end
 end
