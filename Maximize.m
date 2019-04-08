@@ -13,6 +13,9 @@ function r = Maximize(x_not, B, N, C, A, x, b,iter)
 %     set of basic variables B, set of non-basic variables N, constraint 
 %     matrix A, vector of variables x, and the vector of bounds for constraints b.
 %     Function returns the optimal solution vector r. 
+%
+%     Assumes canonical form. 
+%     This is a supporting function which performs the steps of the simplex algorithm on an initial solution $x_{not}$.
 
     % first need to set B' and N'
     down = length(A(:,1));
