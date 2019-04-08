@@ -3,7 +3,7 @@
 %        B -> Set of basic vars -> corresponds to column numbering
 %        N -> Set of non-basic vars -> corresponds to column numbering
 %        A -> Constraint Matrix
-%        x -> vector of all variables
+%        x -> vector of all variables [1,...,n]
 %        b -> Vector of bounds for constraints
 %        path -> n x 2 matrix of (x,y) coordinates of n iterations of the simplex algorithm
 %        iter -> number of iterations
