@@ -1,4 +1,3 @@
-% Function to find an initial solution that can be used for the simplex algorithm when the origin is not feasible 
 % @PARAM  A -> Constraint matrix 
 %         b -> Vector of constraint bounds
 %         x -> Vector of all variables
@@ -7,11 +6,14 @@
 %           algorithm
 
 function res = findMe(A,b,x,v)
-%          -- help function findMe --
-%           res = findMe(A,b,x,v) where A is the constraint matrix, b is the vector of constraint bounds
-%           x is the vector of all variables and v is the number of original variables. FindMe returns -1
-%           when the origin is feasible. Otherwise, it minimized the program and returns the solution to the simplex
-%           algorithm.
+%       -- help function findMe --
+%       res = findMe(A,b,x,v) where A is the constraint matrix, b is the vector of constraint bounds
+%       x is the vector of all variables and v is the number of original variables. FindMe returns -1
+%       when the origin is feasible. Otherwise, it minimized the program and returns the solution to the simplex
+%       algorithm.
+%
+%       This is a supporting function to check if the origin is a feasible solution and find a new initial
+%       feasible solution if the origin is infeasible.
 
     % Get column and row size of A
     [m,n] = size(A);
