@@ -5,7 +5,8 @@
 %        A -> Constraint Matrix
 %        x -> All vars
 %        b -> Bounds for constraints
-function r = Maximize(x_not, B, N, C, A, x, b)
+%        i -> total iterations
+function r = Maximize(x_not, B, N, C, A, x, b, iter)
 %     disp("Current solution")
 %     disp(x_not)
 %     disp(A)
@@ -71,8 +72,8 @@ function r = Maximize(x_not, B, N, C, A, x, b)
     
     %Calculate Reduced Cost
     Cnhat = Cn' + (y' * Np);
-%     disp("Cnhat")
-%     disp(Cnhat)
+     %disp("Cnhat")
+     %disp(Cnhat)
     
     %Find the most improving feasible direction
     ei = 0;
@@ -84,9 +85,13 @@ function r = Maximize(x_not, B, N, C, A, x, b)
         end
     end
     if ei == 0
-%        disp("Max found")
-%        disp(x_not)
-       r = x_not;
+        if iter == 0
+            r = -2;
+        else
+%             disp("Max found")
+%             disp(x_not)
+            r = x_not;   
+        end
     else 
        enter = maxV;
 %        disp("Entering Variable")
@@ -149,7 +154,7 @@ function r = Maximize(x_not, B, N, C, A, x, b)
            N(r2) = leave;
            B = sort(B);
            N = sort(N);
-           r = Maximize(x_not, B, N, C, A, x, b);
+           r = Maximize(x_not, B, N, C, A, x, b,iter + 1);
 %            prompt = "Run again? (y/n)";
 %            z = input(prompt,'s');
 %            y = "y";
@@ -160,8 +165,8 @@ function r = Maximize(x_not, B, N, C, A, x, b)
 %                ;
 %            end
        else 
-%           disp("No more feasible directions to travel") 
-%           disp(x_not)
+%             disp("No more feasible directions to travel") 
+%             disp(x_not)
           r = x_not;
        end
     end

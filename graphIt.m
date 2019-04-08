@@ -3,7 +3,7 @@ function graphIt(A,b,x,v,path)
     %ALL VALUES IN THE VECTOR MUST BE POSITIVE
     tBasic = length(x) - v;
     %generate possible solutions 
-    seed = zeros(1,length(x));
+    seed = zeros(1,length(x))
     for i = 1:tBasic
        seed(i) = 1; 
     end
@@ -30,7 +30,7 @@ function graphIt(A,b,x,v,path)
             len = len + 1;
         end
     end
-%     disp(new);
+    disp(new);
     U = U(new,:);
     pairs = U(:,[1 2]);
     x = pairs(:,1);

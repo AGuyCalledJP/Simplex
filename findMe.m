@@ -1,4 +1,4 @@
-function res = findMe(A,b,x,v)
+function res = findMe(A,b,x,v,m)
     [m,n] = size(A);
     
     %Determine how many problem constraints we have 
@@ -18,13 +18,17 @@ function res = findMe(A,b,x,v)
            pardner(i) = 1;
         elseif ~isNeg && b(i) < 0
            pardner(i) = 1;
+        elseif ~isNeg && b(i) > 0
+           pardner(i) = 1;
+        elseif isNeg && b(i) < 0
+           pardner(i) = 1;
         end
     end
     %disp(pardner)
     
     %add new vars to A, x, and c
-    if ~isempty(find(~pardner))
-        %disp(find(~pardner))
+    if pardner>0
+        %disp(find(~pardner));
         num = length(pardner) - length(find(~pardner));
         start = length(x);
         newX = zeros(1,start + num);
@@ -76,13 +80,21 @@ function res = findMe(A,b,x,v)
            end
         end
         
+        %x_not
+        
         %Make new B and N
         newB = find(x_not)';
         newN = find(~x_not)';
         
-        hold = Maximize(x_not, newB, newN, -newC, -newA, newX, -b);
-        diff = length(newX) - length(x);
-        res = hold(1:length(hold)-diff, 1);
+        if m == 1
+            hold = Maximize(x_not, newB, newN, -newC, -newA, newX, -b, 0);
+            diff = length(newX) - length(x);
+            res = hold(1:length(hold)-diff, 1);
+        else
+            hold = Maximize(x_not, newB, newN, -newC, -newA, newX, -b, 0);
+            diff = length(newX) - length(x);
+            res = hold(1:length(hold)-diff, 1);
+        end
     else
         res = -1;
     end
