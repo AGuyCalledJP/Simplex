@@ -78,3 +78,14 @@ catch e
     disp(e) 
 end
 
+try
+    A = [4 -2 3 -3 1 0
+         5 -2 0 0 0 -1];
+    x = [1 2 3 4 5 6];
+    b = [13 10];
+    C = [1 2 0 0 0];
+    Simplex(A,x,b,C,1,0);
+catch e
+    disp(e) 
+end
+
