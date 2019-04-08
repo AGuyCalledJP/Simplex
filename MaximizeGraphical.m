@@ -5,7 +5,7 @@
 %        A -> Constraint Matrix
 %        x -> All vars
 %        b -> Bounds for constraints
-function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path)
+function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, iter)
 %     disp("Current solution")
 %     disp(x_not)
 %     disp(A)
@@ -87,10 +87,15 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path)
         end
     end
     if ei == 0
+        if iter == 0
+            r = -2;
+            completePath = [];
+        else
 %        disp("Max found")
 %        disp(x_not)
        r = x_not;
-       completePath = path;
+       completePath = path;   
+        end
     else 
        enter = maxV;
 %        disp("Entering Variable")
@@ -153,7 +158,7 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path)
            N(r2) = leave;
            B = sort(B);
            N = sort(N);
-          [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path);
+          [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, iter + 1);
 %            prompt = "Run again? (y/n)";
 %            z = input(prompt,'s');
 %            y = "y";
