@@ -14,6 +14,10 @@ function Simplex(A,x,b,C,m,g)
 %       b is the vector of constraint bounds, C is the objective function, m is whether the 
 %       program is min (0) or max (1) and g is whether you want the program to generate a graph (1)
 %       or not (0). Simplex has no return.
+%
+%       Simplex is the main function which calls MiddleWare to do all the background work of the algorithm. 
+%       Simplex assumes the linear program is in canonical form
+
     disp('SIMPLEX')
     A
     x
