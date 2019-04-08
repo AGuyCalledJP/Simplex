@@ -1,4 +1,3 @@
-% Checks if an element i is a member in a matrix
 % @PARAM: B -> Matrix being searched
 %         i -> element being searched for
 % @RETURN: Returns 1 if element i is found, 0 otherwise
@@ -9,6 +8,9 @@ function res = belong(B,i)
 %   and element i is what is being searched for. This function
 %   returns res = 1 if the element is contained in the matrix
 %   and 0 otherwise.
+%
+%   This is a supporting function which checks if an element i is a member in a matrix. 
+%   Belong is used in the MaximizeGraphical() and Maximize() functions when constructing a simplex direction.
 
     l = ismember(B,i);
     res = 0;
