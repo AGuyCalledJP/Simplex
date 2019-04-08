@@ -6,12 +6,13 @@
 %         C -> Objective function
 %         m -> Min/Max (0,1)
 %         g -> Generate Graph (0,1) -- 2 dim only
+% @RETURN None
 function MiddleWare(A,x,b,C,m,g)
 %       -- help function MiddleWare --
 %       MiddleWare(A,x,b,C,m,g) where A is the constraint matrix, x is the vector of all variables,
 %       b is the vector of constraint bounds, C is the objective function, m is whether the program is 
 %       to be minimized (0) or maximized (1), and g is whether the program will be graphed (1) or not 
-%       graphed (0). 
+%       graphed (0). This is a suppport function and has no return.
 
     % Find basic and non basic variables
    [o,p] = size(A);
