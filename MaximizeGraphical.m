@@ -6,9 +6,9 @@
 %        x -> vector of all variables
 %        b -> Vector of bounds for constraints
 %        path -> n x 2 matrix of (x,y) coordinates of n iterations of the simplex algorithm
+%        iter -> number of iterations
 % @RETURN path -> n x 2 matrix filled by (x,y) coordinates of the n iteations taken by the simplex algortithm
-
-function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path)
+function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, iter)
 %     -- help function MaximizeGraphical --
 %     [r,completePath] = MaximizeGraphical(x_not,B,N,C,A,x,b,path) where x_not is the initial feasible solution,
 %     B is the set of basic variables, N is the set of non-basic variables, A is the constraint matrix,
@@ -101,10 +101,15 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path)
         end
     end
     if ei == 0
-       % disp("Max found")
-       % disp(x_not)
+        if iter == 0
+            r = -2;
+            completePath = [];
+        else
+%        disp("Max found")
+%        disp(x_not)
        r = x_not;
-       completePath = path;
+       completePath = path;   
+        end
     else 
        enter = maxV;
        % disp("Entering Variable")
@@ -175,17 +180,10 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path)
            % simplex direction
            B = sort(B);
            N = sort(N);
-          [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path);
-          
-%            prompt = "Run again? (y/n)";
-%            z = input(prompt,'s');
-%            y = "y";
-%            disp(z)
-%            if strcmp(z,y)
-%                [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path);
-%            else 
-%                ;
-%            end
+           
+           % pause 
+           
+          [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, iter + 1);
        % Otherwise there is no more feasible improving directions and we are at optimum 
        % Return r and completePath
        else 

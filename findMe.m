@@ -26,12 +26,16 @@ function res = findMe(A,b,x,v)
            pardner(i) = 1;
         elseif ~isNeg && b(i) < 0
            pardner(i) = 1;
+        elseif ~isNeg && b(i) > 0
+           pardner(i) = 1;
+        elseif isNeg && b(i) < 0
+           pardner(i) = 1;
         end
     end
-    %disp(pardner)
+    disp(pardner)
     
     %add new vars to A, x, and c
-    if ~isempty(find(~pardner))
+    if pardner>0
         %if find(~(pardner)) is not full of zeros we need to find a new initial solution
         
         %disp(find(~pardner))
@@ -104,15 +108,21 @@ function res = findMe(A,b,x,v)
            end
         end
         
+        %x_not
+        
         %Make new B and N
         newB = find(x_not)';
         newN = find(~x_not)';
         
         % Call Maximize() on new data found
-        % REMINDER ON THIS AS WELL
-        hold = Maximize(x_not, newB, newN, -newC, -newA, newX, -b);
-        diff = length(newX) - length(x);
-        res = hold(1:length(hold)-diff, 1);
+        hold = Maximize(x_not, newB, newN, -newC, -newA, newX, -b, 0);
+        if hold == -2
+            msg = "Lp was Infeasible";
+            error(msg)
+        else
+            diff = length(newX) - length(x);
+            res = hold(1:length(hold)-diff, 1);
+        end
     else 
         %if no problems were found we return -1
         res = -1;
