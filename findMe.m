@@ -32,7 +32,7 @@ function res = findMe(A,b,x,v)
            pardner(i) = 1;
         end
     end
-    disp(pardner)
+    %disp(pardner)
     
     %add new vars to A, x, and c
     if pardner>0
