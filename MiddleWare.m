@@ -1,5 +1,5 @@
 % Error handling and some behind the scenes work
-% @AUTHOR: Jared Polonitza
+% @AUTHOR: Jared Polonitza and Sarah McClain
 % @PARAM: A -> Constraint Matrix
 %         x -> Vector of all variables
 %         b -> Vector of constraint bounds
