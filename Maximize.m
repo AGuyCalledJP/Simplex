@@ -184,7 +184,8 @@ function r = Maximize(x_not, B, N, C, A, x, b,iter)
        else 
           % disp("No more feasible directions to travel") 
           % disp(x_not)
-          r = x_not;
+          msg = "Lp is Unbounded"
+          error(msg)
        end
     end
 end
