@@ -1,12 +1,12 @@
-%Simplex algorithm for maximization. Assumes cannonical form
-%@PARAM: x_not -> initial feasible sol
+% Simplex algorithm for maximization. Assumes cannonical form
+% @PARAM: x_not -> initial feasible sol
 %        B -> Set of basic vars -> corresponds to column numbering
 %        N -> Set of non-basic vars -> corresponds to column numbering
 %        A -> Constraint Matrix
 %        x -> All vars
 %        b -> Vector of bounds for constraints
 %        iter -> total iterations
-%@RETURN: r -> Optimal solution vector
+% @RETURN: r -> Optimal solution vector
 function r = Maximize(x_not, B, N, C, A, x, b,iter)
 %     -- help for Maximize() --
 %     r = Maxmize(x_not,B,N,C,A,x,b) for the initial feasible solution x_not,
@@ -14,13 +14,6 @@ function r = Maximize(x_not, B, N, C, A, x, b,iter)
 %     matrix A, vector of variables x, and the vector of bounds for constraints b.
 %     Function returns the optimal solution vector r. 
 
-    % disp("Current solution")
-    % disp(x_not)
-    % disp(A)
-    % disp(x)
-    % disp(b)
-    % disp(C)
-    
     % first need to set B' and N'
     down = length(A(:,1));
     basic = length(B);
@@ -31,10 +24,7 @@ function r = Maximize(x_not, B, N, C, A, x, b,iter)
     Cb = zeros(basic, 1);
     Np = zeros(down, nonBasic);
     Cn = zeros(nonBasic, 1);
-    
-    % Extract columns of A corresponding to B to form Bp
-    % A(:,1); <- grab a column
-    
+
     % Form Bp from corresponding columns of A
     for i = 1:basic
        ind = B(i);
@@ -63,28 +53,11 @@ function r = Maximize(x_not, B, N, C, A, x, b,iter)
        Cn(i) = val;
     end
     
-    % disp("Basic vars")
-    % disp(B)
-    % disp("Non-Basic vars")
-    % disp(N)
-    % disp("B prime")
-    % disp(Bp)
-    % disp("C basic")
-    % disp(Cb)
-    % disp("N prime")
-    % disp(Np)
-    % disp("C non-basic")
-    % disp(Cn)
-    
     % Calculate y -> B'y = -Cb
     y = Bp' \ -Cb;
-    % disp("y")
-    % disp(y)
     
     % Calculate Reduced Cost
     Cnhat = Cn' + (y' * Np);
-    % disp("Cnhat")
-    % disp(Cnhat)
     
     % Find the most improving feasible direction
     ei = 0;
@@ -97,21 +70,18 @@ function r = Maximize(x_not, B, N, C, A, x, b,iter)
     end
     if ei == 0
         if iter == 0
+            % Linear program is not feasible
             r = -2;
         else
-%             disp("Max found")
-%             disp(x_not)
+            % Max found
             r = x_not;   
         end
-    else 
+    else
+       % Set entering variable
        enter = maxV;
-         % disp("Entering Variable")
-         % disp(enter)
-       
-       % Create simplex direction for the winner
+
+       % Create simplex direction for the entering
        d = Bp \ -A(:,enter);
-         % disp("d")
-         % disp(d)
        
        % Conduct ratio test as long as direction vector is not negative
        % (There is a feasible improving direction to go in)
@@ -134,9 +104,7 @@ function r = Maximize(x_not, B, N, C, A, x, b,iter)
                    end
                end
            end
-           % disp("Max lambda")
-           % disp(lambda)
-           % disp("Leaving Var")
+ 
            % Find leaving variable
            leave = x(ismember(x,li));
            % disp(leave)
@@ -155,16 +123,12 @@ function r = Maximize(x_not, B, N, C, A, x, b,iter)
               end
            end
            
-           % disp("Simplex direction")
-           % disp(dK)
-
-           % Update Solution
+           % Find step size
            step = (lambda * dK);
+           
+           % Update Solution
            x_not = x_not + step;
-           
-           % disp("Update Solution")
-           % disp(x_not)
-           
+    
            % Set correct columns in matrix to be leaving or entering
            r1 = ismember(B,leave);
            r2 = ismember(N,enter);
@@ -174,16 +138,11 @@ function r = Maximize(x_not, B, N, C, A, x, b,iter)
            % Sort B and N and call Maximize() again 
            B = sort(B);
            N = sort(N);
-           
-           % pause
-           
+            
+           % Call Maximize to see if can still be improved
            r = Maximize(x_not, B, N, C, A, x, b,iter + 1);
 
-       % Otherwise there are no more feasible directions to travel
-       % We are at optimium -- return r
        else 
-          % disp("No more feasible directions to travel") 
-          % disp(x_not)
           msg = "Lp is Unbounded"
           error(msg)
        end

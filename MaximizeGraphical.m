@@ -8,6 +8,7 @@
 %        path -> n x 2 matrix of (x,y) coordinates of n iterations of the simplex algorithm
 %        iter -> number of iterations
 % @RETURN path -> n x 2 matrix filled by (x,y) coordinates of the n iteations taken by the simplex algortithm
+
 function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, iter)
 %     -- help function MaximizeGraphical --
 %     [r,completePath] = MaximizeGraphical(x_not,B,N,C,A,x,b,path) where x_not is the initial feasible solution,
@@ -17,13 +18,6 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, ite
 %     and an n x 2 matrix containing the (x,y) coordinate the algorithm was at for each of the n iterations of the 
 %     algorithm.
 
-    % disp("Current solution")
-    % disp(x_not)
-    % disp(A)
-    % disp(x)
-    % disp(b)
-    % disp(C)
-    
     % Add initial starting point to path matrix
     path(end+1, 1) = x_not(1);
     path(end, 2) = x_not(2);
@@ -54,7 +48,7 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, ite
        Cb(i) = val;
     end
     
-    % Make Np
+    % Make Np from corresponding columns of A
     for i = 1:nonBasic
        ind = N(i);
        col = A(:,ind);
@@ -68,28 +62,11 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, ite
        Cn(i) = val;
     end
     
-    % disp("Basic vars")
-    % disp(B)
-    % disp("Non-Basic vars")
-    % disp(N)
-    % disp("B prime")
-    % disp(Bp)
-    % disp("C basic")
-    % disp(Cb)
-    % disp("N prime")
-    % disp(Np)
-    % disp("C non-basic")
-    % disp(Cn)
-    
     % Calculate y -> B'y = -Cb
     y = Bp' \ -Cb;
-    % disp("y")
-    % disp(y)
     
     % Calculate Reduced Cost
     Cnhat = Cn' + (y' * Np);
-    % disp("Cnhat")
-    % disp(Cnhat)
     
     % Find the most improving feasible direction
     ei = 0;
@@ -102,23 +79,20 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, ite
     end
     if ei == 0
         if iter == 0
+            % Linear program is not feasible
             r = -2;
             completePath = [];
         else
-%        disp("Max found")
-%        disp(x_not)
-       r = x_not;
-       completePath = path;   
+            % Max found: Return x_not and completePath       
+             r = x_not;
+             completePath = path;   
         end
     else 
+       % Set entering variable
        enter = maxV;
-       % disp("Entering Variable")
-       % disp(enter)
        
        % Create simplex direction for the winner
        d = Bp \ -A(:,enter);
-         % disp("d")
-         % disp(d)
        
        % If direction d is not negative conduct ratio test 
        % (Means there is a feasible improving direction so not at optimum yet)
@@ -141,12 +115,9 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, ite
                    end
                end
            end
-           % disp("Max lambda")
-           % disp(lambda)
-           % disp("Leaving Var")
+
            % Set Leaving variable 
            leave = x(ismember(x,li));
-            % disp(leave)
            
            % Construct proper simplex direction
            dK = zeros(length(x_not),1);
@@ -161,14 +132,12 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, ite
                   dK(i) = 0;
               end
            end
-           % disp("Simplex direction")
-           % disp(dK)
             
-           % Update Solution
+           % Find step size
            step = (lambda * dK);
+           
+           % Update Solution
            x_not = x_not + step;
-           % disp("Update Solution")
-           % disp(x_not)
            
            % Set column to enter and leave in B and N
            r1 = ismember(B,leave);
@@ -181,14 +150,11 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, ite
            B = sort(B);
            N = sort(N);
            
-           % pause 
-           
           [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, iter + 1);
-       % Otherwise there is no more feasible improving directions and we are at optimum 
-       % Return r and completePath
+       
        else 
-%           disp("No more feasible directions to travel") 
-%           disp(x_not)
+          % Otherwise there is no more feasible improving directions and we are at optimum 
+          % Return r and completePath
           r = x_not;
           completePath = path;
        end
