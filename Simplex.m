@@ -6,6 +6,8 @@
 %        C -> Objective function
 %        m -> Min/Max (0,1)
 %        g -> Generate Graph (0,1) (2 dim only)
+% @RETURN: None
+
 function Simplex(A,x,b,C,m,g)
 %   -- help function simplex --
 %       Simplex(A,x,b,C,m,g) where A is the constraint matrix, x is the vector of all variables,
