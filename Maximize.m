@@ -3,7 +3,7 @@
 %        B -> Set of basic vars -> corresponds to column numbering
 %        N -> Set of non-basic vars -> corresponds to column numbering
 %        A -> Constraint Matrix
-%        x -> All vars
+%        x -> All vars [1,...,n]
 %        b -> Vector of bounds for constraints
 %        iter -> total iterations
 % @RETURN: r -> Optimal solution vector
