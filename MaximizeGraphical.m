@@ -17,6 +17,10 @@ function [r,completePath] = MaximizeGraphical(x_not, B, N, C, A, x, b, path, ite
 %     an n x 2 matrix of (x,y) coordinates of n iterations of the simplex algorithm. Returns optimal solution vector r
 %     and an n x 2 matrix containing the (x,y) coordinate the algorithm was at for each of the n iterations of the 
 %     algorithm.
+%
+%     Simplex algorithm for maximization. Assumes canonical form. 
+%     This is a supporting function which performs the steps of the simplex algorithm (same as Maximize) on an initial solution x_not
+%     along with keeping track of the path (or coordinates) the algorithm has taken in order to be used for graphing later.
 
     % Add initial starting point to path matrix
     path(end+1, 1) = x_not(1);
