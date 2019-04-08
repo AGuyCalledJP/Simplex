@@ -1,24 +1,34 @@
-% This function graphs the path taken through the feasible region by the algorithm
-% Inputs: Matrix A, vector b, x is the list of variables,
-% v is the number of original non-slack variables there are,
-% path is the path the simplex algorithm took (found in maximizeGraphical)
-% No return
+% This function graphs the path taken through the feasible region by the simplex algorithm
+% @PARAM A -> Constraint matrix 
+%        b -> Vector of constraint bounds
+%        x -> Vector of all variables
+%        v -> Number of original non-slack variables
+%        path -> n x 2 matrix of the (x,y) corrdinates for the nth iteration the simplex algorithm took
+% @RETURN none
 
 function graphIt(A,b,x,v,path)
+%   -- help function graphIt --
+%   graphIt(A,b,x,v,path) where A is the constraint matrix, b is the vector of constraint bounds,
+%   x is the vector of variables, v is the number of original (non-slack) variables and path is an 
+%   n x 2 matrix holding the (x,y) coordinates for the nth iteration the simplex algorithm took. This 
+%   function doesn't have a return. 
+
     % Want to take all permutations of basic soluitons 
     % ALL VALUES IN THE VECTOR MUST BE POSITIVE
     
     % Find number of basic variables
     tBasic = length(x) - v;
+    
     % Generate possible solutions 
     seed = zeros(1,length(x));
     for i = 1:tBasic
        seed(i) = 1; 
     end
     
-    % Generate all permutations of basic solutions using MatLab perm() function
+    % Generate all permutations of basic solutions 
     P = perms(seed);
-    % Generate all unique rows of the permutations using Matlab unique() function
+    
+    % Generate all unique rows of the permutations 
     U = unique(P, 'rows');
     
     % Traverse through U matrix
@@ -36,6 +46,7 @@ function graphIt(A,b,x,v,path)
            end
        end
     end
+    
     % Generate all unique rows of the matrix U
     U = unique(U, 'rows');
     
@@ -44,7 +55,7 @@ function graphIt(A,b,x,v,path)
     len = 1;
     for i = 1:length(U)
         r = U(i,:)>=0;
-        % all tells if it is all greater than 0
+        % tells if it is all greater than 0
         % if its all positive it gets put in a list of keepers and then the keepers
         % are later all put in an array
         if all(r)
@@ -52,16 +63,15 @@ function graphIt(A,b,x,v,path)
             len = len + 1;
         end
     end
-    % disp(new);
     
-    % Take first two columsn and splitting them off my coordinate pairs : seperate as first column 
+    % Take first two columns and split them off by coordinate pairs : seperate as first column 
     % being x and second column being y
     U = U(new,:);
     pairs = U(:,[1 2]);
     x = pairs(:,1);
     y = pairs(:,2);
     
-    % this is path that was passed in at the start
+    % Add coordinates to the path matrix
     v = path(:,1);
     w = path(:,2);
     
