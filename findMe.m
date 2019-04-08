@@ -44,10 +44,8 @@ function res = findMe(A,b,x,v)
         elseif isNeg && b(i) < 0
            pardner(i) = 1;
         end
-    end
-    % Display problem constraint vector
-    disp(pardner)
-    
+    end 
+   
     %add new variables to A, x, and c
     if pardner>0
         % if find(~(pardner)) is not full of zeros we need to find a new initial solution
