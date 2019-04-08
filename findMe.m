@@ -125,7 +125,7 @@ function res = findMe(A,b,x,v)
         hold = Maximize(x_not, newB, newN, -newC, -newA, newX, -b, 0);
         if hold == -2
             % Then infeasible linear program
-            msg = "Lp was Infeasible";
+            msg = 'Lp was Infeasible';
             error(msg)
         else
             % Otherwise return the solution to Maximize

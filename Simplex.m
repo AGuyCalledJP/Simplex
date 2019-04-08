@@ -14,7 +14,7 @@ function Simplex(A,x,b,C,m,g)
 %       b is the vector of constraint bounds, C is the objective function, m is whether the 
 %       program is min (0) or max (1) and g is whether you want the program to generate a graph (1)
 %       or not (0). Simplex has no return.
-    disp("SIMPLEX")
+    disp('SIMPLEX')
     A
     x
     b

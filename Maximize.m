@@ -143,7 +143,7 @@ function r = Maximize(x_not, B, N, C, A, x, b,iter)
            r = Maximize(x_not, B, N, C, A, x, b,iter + 1);
 
        else 
-          msg = "Lp is Unbounded"
+          msg = 'Lp is Unbounded'
           error(msg)
        end
     end

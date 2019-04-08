@@ -30,7 +30,7 @@ function MiddleWare(A,x,b,C,m,g)
            bInd = bInd + 1;
         end
     elseif x_not == -2
-        msg = "LP was Infeasible";
+        msg = 'LP was Infeasible';
         error(msg)
     end
     
@@ -47,11 +47,11 @@ function MiddleWare(A,x,b,C,m,g)
             if r ~= -2
                 % Find max as long as LP is feasible
                 max = C * r;
-                disp("Global optimum of: " + max);
-                disp("Achieved at: ");
+                disp('Global optimum of: ' + max);
+                disp('Achieved at: ');
                 disp(r');
             else 
-                msg = "LP was Infeasible";
+                msg = 'LP was Infeasible';
                 error(msg)
             end
         elseif g == 1
@@ -61,16 +61,16 @@ function MiddleWare(A,x,b,C,m,g)
             if r ~= -2
                 % Find max as long as LP is feasible 
                 max = C * r;
-                disp("Global optimum of: " + max);
-                disp("Achieved at: ");
+                disp('Global optimum of: ' + max);
+                disp('Achieved at: ');
                 disp(r');
                 graphIt(A,b,x,v,path);  
             else 
-                msg = "LP was Infeasible";
+                msg = 'LP was Infeasible';
                 error(msg)
             end
         else 
-            error("Uncrecognized command")
+            error('Uncrecognized command')
         end
         
     % Maximization
@@ -82,11 +82,11 @@ function MiddleWare(A,x,b,C,m,g)
             if r ~= -2
                 % Find max as long as LP is feasible
                 max = C * r;
-                disp("Global optimum of: " + max);
-                disp("Achieved at: ");
+                disp('Global optimum of: ' + max);
+                disp('Achieved at: ');
                 disp(r');
             else 
-                msg = "LP was Infeasible";
+                msg = 'LP was Infeasible';
                 error(msg)
             end
         elseif g == 1
@@ -96,22 +96,22 @@ function MiddleWare(A,x,b,C,m,g)
             if r ~= -2
                 % Find max as long as LP is feasible
                 max = C * r;
-                disp("Global optimum of: " + max);
-                disp("Achieved at: ");
+                disp('Global optimum of: ' + max);
+                disp('Achieved at: ');
                 disp(r');
                 
                 % plot direction taken by algorithm
                 graphIt(A,b,x,v,path);  
             else 
-                msg = "LP was Infeasible";
+                msg = 'LP was Infeasible';
                 error(msg)
             end
         else 
             % Anything else besides 0 or 1 put in for g
-            error("Uncrecognized command")
+            error('Uncrecognized command')
         end 
     else 
        % Anything besides 0 or 1 put in for m
-       error("Unrecognized command") 
+       error('Unrecognized command') 
     end
 end
