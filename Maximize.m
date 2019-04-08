@@ -5,14 +5,15 @@
 %        A -> Constraint Matrix
 %        x -> All vars
 %        b -> Vector of bounds for constraints
+%        iter -> total iterations
 %@RETURN: r -> Optimal solution vector
-function r = Maximize(x_not, B, N, C, A, x, b)
+function r = Maximize(x_not, B, N, C, A, x, b,iter)
 %     -- help for Maximize() --
 %     r = Maxmize(x_not,B,N,C,A,x,b) for the initial feasible solution x_not,
 %     set of basic variables B, set of non-basic variables N, constraint 
 %     matrix A, vector of variables x, and the vector of bounds for constraints b.
 %     Function returns the optimal solution vector r. 
-%
+
     % disp("Current solution")
     % disp(x_not)
     % disp(A)
@@ -95,9 +96,13 @@ function r = Maximize(x_not, B, N, C, A, x, b)
         end
     end
     if ei == 0
-    % disp("Max found")
-    % disp(x_not)
-       r = x_not;
+        if iter == 0
+            r = -2;
+        else
+%             disp("Max found")
+%             disp(x_not)
+            r = x_not;   
+        end
     else 
        enter = maxV;
          % disp("Entering Variable")
@@ -169,23 +174,16 @@ function r = Maximize(x_not, B, N, C, A, x, b)
            % Sort B and N and call Maximize() again 
            B = sort(B);
            N = sort(N);
-           r = Maximize(x_not, B, N, C, A, x, b);
            
-%            prompt = "Run again? (y/n)";
-%            z = input(prompt,'s');
-%            y = "y";
-%            disp(z)
-%            if strcmp(z,y)
-%                r = Maximize(x_not, B, N, C, A, x, b);
-%            else 
-%                ;
-%            end
+           % pause
+           
+           r = Maximize(x_not, B, N, C, A, x, b,iter + 1);
 
        % Otherwise there are no more feasible directions to travel
        % We are at optimium -- return r
        else 
-            % disp("No more feasible directions to travel") 
-            % disp(x_not)
+          % disp("No more feasible directions to travel") 
+          % disp(x_not)
           r = x_not;
        end
     end
