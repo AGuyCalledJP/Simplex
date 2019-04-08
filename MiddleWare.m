@@ -14,7 +14,7 @@ function MiddleWare(A,x,b,C,m,g)
     %Find basic and non basic vars
    [o,p] = size(A);
     v = p - o;
-    x_not = findMe(A,b,x,v,m);
+    x_not = findMe(A,b,x,v);
     %disp(x_not)
     if x_not == -1
         %Find inital solution -> assumes origin feasible
