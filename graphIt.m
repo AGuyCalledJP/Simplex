@@ -1,4 +1,3 @@
-% This function graphs the path taken through the feasible region by the simplex algorithm
 % @PARAM A -> Constraint matrix 
 %        b -> Vector of constraint bounds
 %        x -> Vector of all variables
@@ -12,12 +11,12 @@ function graphIt(A,b,x,v,path)
 %   x is the vector of variables, v is the number of original (non-slack) variables and path is an 
 %   n x 2 matrix holding the (x,y) coordinates for the nth iteration the simplex algorithm took. This 
 %   function doesn't have a return. 
+%
+%   This is a support function which takes the path found in MaximizeGraphical and draws a graph from 
+%   the coordinates the algorithm went through
 
-    % Want to take all permutations of basic soluitons 
-    % ALL VALUES IN THE VECTOR MUST BE POSITIVE
-    
-    % Find number of basic variables
     tBasic = length(x) - v;
+    % Find number of basic variables above
     
     % Generate possible solutions 
     seed = zeros(1,length(x));
