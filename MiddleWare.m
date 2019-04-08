@@ -13,6 +13,11 @@ function MiddleWare(A,x,b,C,m,g)
 %       b is the vector of constraint bounds, C is the objective function, m is whether the program is 
 %       to be minimized (0) or maximized (1), and g is whether the program will be graphed (1) or not 
 %       graphed (0). This is a suppport function and has no return.
+%
+%       This is a supporting function that handles errors with the input from the user and connects the
+%       different versions of the simplex algorithm code (minimization vs maximization, graphing vs no graphing) 
+%       in one function to be called in the main simplex function. By making a separate MiddleWare function you
+%       can manipulate the parameters in Maximize in order to minimize a linear program without making a separate Minimize function.
 
     % Find basic and non basic variables
    [o,p] = size(A);
